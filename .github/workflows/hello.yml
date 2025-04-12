@@ -9,7 +9,7 @@ jobs:
 
      steps:
        - name: my first step
-         uses: actions/test
+         uses: actions/checkout@v2
 
        - name: Say Hello to the World
          run: echo "Hello, World!"
