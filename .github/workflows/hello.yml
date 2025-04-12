@@ -1,11 +1,9 @@
-name: hello work
-
- on:
+name: test
+on:
    push:
      branches:
        - master
-
- jobs:
+jobs:
    build:
      runs-on: ubuntu-latest
 
