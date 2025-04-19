@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cdtest
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cdtest
+  namespace: cdtest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cdtest
+  template:
+    metadata:
+      labels:
+        app: cdtest
+    spec:
+      containers:
+      - image: docker.io/tri1/test:latest
+        imagePullPolicy: Always
+        name: cdtest 
+        ports:
+        - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cdtest
+  namespace: cdtest
+spec:
+  ports:
+  - port: 80
+    targetPort: 3001
+    protocol: TCP
+  selector:
+    app: cdtest
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: testcd
+  namespace: cdtest
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: echo.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cdtest
+            port:
+              number: 80
