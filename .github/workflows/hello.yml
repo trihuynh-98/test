@@ -5,7 +5,10 @@ on:
        - master
 jobs:
    build:
-     runs-on: ubuntu-latest
+     runs-on: self-hostd
+
+     container:
+      image: ubuntu-latest
 
      steps:
        - name: my first step
@@ -13,3 +16,7 @@ jobs:
 
        - name: Say Hello to the World
          run: echo "Hello, World!"
+
+    deploy:
+      - run: |
+          k apply -f ./echo-deployment.yml
