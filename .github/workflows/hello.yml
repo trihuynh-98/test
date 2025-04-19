@@ -4,7 +4,7 @@ on:
      branches:
        - master
 jobs:
-   build:
+  build:
      runs-on: self-hostd
 
      container:
@@ -17,6 +17,12 @@ jobs:
        - name: Say Hello to the World
          run: echo "Hello, World!"
 
-    deploy:
+  deploy:
+    runs-on: self-hostd
+
+    container:
+     image: ubuntu-latest
+
+    steps:
       - run: |
-          k apply -f ./echo-deployment.yml
+          kubectl apply -f ./echo-deployment.yml
