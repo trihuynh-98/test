@@ -8,10 +8,10 @@ on:
        - master
 jobs:
   build:
-     runs-on: mgr
+     runs-on: ubuntu-latest
 
-     container:
-      image: ghcr.io/catthehacker/ubuntu:act-latest
+    #  container:
+    #   image: ghcr.io/catthehacker/ubuntu:act-latest
 
      steps:
        - name: my first step
