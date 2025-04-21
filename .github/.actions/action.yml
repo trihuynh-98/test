@@ -1,0 +1,5 @@
+name: 'Build docker file'
+description: 'prepare docker file for workflow'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
