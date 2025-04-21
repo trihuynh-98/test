@@ -3,6 +3,9 @@ on:
    push:
      branches:
        - master
+   pull_request:
+     branches:
+       - master
 jobs:
   build:
      runs-on: mgr
@@ -12,13 +15,12 @@ jobs:
 
      steps:
        - name: my first step
-         uses: actions/checkout@v2
+         uses: actions/checkout@v3
 
        - name: running dockerfile
-         uses: ./github/.actions
+         uses: ./.github/actions
 
-       - name: Say Hello to the World
-         run: echo "Hello, World!"
+       - run: echo "Dockerfile builded done!"
 
   deploy:
     needs: [build]
