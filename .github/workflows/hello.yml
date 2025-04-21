@@ -8,7 +8,7 @@ jobs:
      runs-on: self-hostd
 
      container:
-      image: ubuntu-latest
+      image: ghcr.io/catthehacker/ubuntu:act-latest
 
      steps:
        - name: my first step
@@ -19,11 +19,28 @@ jobs:
 
   deploy:
     needs: [build]
-    runs-on: self-hostd
+    runs-on: arc-runner-set
 
     container:
-     image: ubuntu-latest
+     image: ghcr.io/catthehacker/ubuntu:act-latest
 
     steps:
-      - run: |
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: set enviroment variables from github secrets
+        run: |
+          echo "USERNAME=${{secrets.USERNAME}}" >> $GITHUB_ENV
+          echo "PASSWORD=${{secrets.PASSWORD}}" >> $GITHUB_ENV
+
+      - name: login docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.USERNAME}}
+          password: ${{secrets.PASSWORD}}
+          logout: true
+
+      - name: deploy to k8s
+        run: |
           kubectl apply -f ./echo-deployment.yml
