@@ -5,7 +5,7 @@ on:
        - master
 jobs:
   build:
-     runs-on: self-hosted
+     runs-on: mgr
 
      container:
       image: ghcr.io/catthehacker/ubuntu:act-latest
