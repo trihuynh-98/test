@@ -1,15 +1,15 @@
 FROM node:16.20-alpine
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+RUN mkdir -p /app && chown -R node:node /app
 
-WORKDIR /home/node/app
+WORKDIR /app
 
-COPY . .
-
-COPY package*.json ./
+COPY . /app
 
 RUN npm install
 
-#EXPOSE 3001
+COPY entrypoint.sh /entrypoint.sh
 
-CMD [ "node", "/home/node/app/index.js" ]
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
