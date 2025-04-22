@@ -34,6 +34,9 @@ jobs:
           username: ${{secrets.username}}
           password: ${{secrets.password}}
 
+       - name: Set up QEMU
+         uses: docker/setup-qemu-action@v3
+
        - name: Set up Docker buildx
          uses: docker/setup-buildx-actions@v3
 
@@ -45,6 +48,7 @@ jobs:
           annotations: ${{steps.meta.outputs.annotations}}
           prevenance: true
           sbom: true
+
   deploy:
     needs: [build]
     runs-on: arc-runner-set
