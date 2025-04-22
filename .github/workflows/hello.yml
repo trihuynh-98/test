@@ -17,11 +17,34 @@ jobs:
        - name: my first step
          uses: actions/checkout@v3
 
-       - name: running dockerfile
-         uses: .github/actions
+      #  - name: running dockerfile
+      #    uses: .github/actions
 
        - run: echo "Dockerfile builded done!"
 
+       - name: Extract docker image metadata
+         id: meta
+         uses: docker/metadata-action@v5
+         with:
+          images: ${{vars.username}}/helloworld
+
+       - name: upload image to docker hub
+         uses: docker/login-action@v3
+         with:
+          username: ${{secrets.username}}
+          password: ${{secrets.password}}
+
+       - name: Set up Docker buildx
+         uses: docker/setup-buildx-actions@v3
+
+       - name: Build and push docker image
+         uses: docker/build-push-actions@v6
+         with: 
+          push: ${{github.event_name != 'pull_request'}}
+          tags: ${{steps.meta.outputs.tags}}
+          annotations: ${{steps.meta.outputs.annotations}}
+          prevenance: true
+          sbom: true
   deploy:
     needs: [build]
     runs-on: arc-runner-set
