@@ -43,8 +43,8 @@ jobs:
     needs: [build]
     runs-on: arc-runner-set
 
-    container:
-     image: ghcr.io/catthehacker/ubuntu:act-latest
+    #container:
+     #image: ghcr.io/catthehacker/ubuntu:act-latest
 
     steps:
 
