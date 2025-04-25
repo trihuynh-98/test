@@ -70,6 +70,10 @@ jobs:
           password: ${{secrets.PASSWORD}}
           logout: true
 
-      - name: deploy to k8s
-        run: |
-          kubectl apply -f ./echo-deployment.yml
+      - uses: actions-hub/kubectl@master
+        env:
+          KUBE_HOST: ${{ secrets.kubelet_host }}
+          KUBE_CERTIFICATE: ${{ secrets.kubelet_cert }}
+          KUBE_USERNAME: ${{ secrets.kubelet_key }}
+        with:
+          args: kubectl -f echo-deployment.yml
