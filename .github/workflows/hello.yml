@@ -86,4 +86,5 @@ jobs:
 
       - name: Deploy
         run: |
-          kubectl apply -f echo-deployment.yml
+          kubectl apply -f echo-deployment.
+          
